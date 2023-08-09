@@ -1,12 +1,13 @@
 package ua.chernonog.working.antifraud.model.respons;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import ua.chernonog.working.antifraud.model.enumreq.Permission;
+import lombok.*;
+import ua.chernonog.working.antifraud.model.Permission;
 
-@Getter@Setter@Builder@ToString
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransactionRes {
     Enum<Permission> result;
 }
