@@ -1,16 +1,22 @@
 package ua.chernonog.working.antifraud.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
+//@Accessors(chain = true)
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Builder
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
 
     String name;
 
@@ -18,3 +24,4 @@ public class UserEntity {
 
     String password;
 }
+

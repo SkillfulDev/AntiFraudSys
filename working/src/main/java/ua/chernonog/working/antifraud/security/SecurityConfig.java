@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 //                .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(c -> c.requestMatchers(
-                                "/api/antifraud/*").permitAll().anyRequest().permitAll())
+                                "/api/auth/user").permitAll().anyRequest().permitAll())
 //                        .requestMatchers( "/actuator/shutdown").permitAll())
                 .build();
 

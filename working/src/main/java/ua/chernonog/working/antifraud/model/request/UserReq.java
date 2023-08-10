@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Accessors(chain = true)
+public class UserReq {
     String name;
     String username;
     String password;
