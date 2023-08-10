@@ -1,9 +1,7 @@
 package ua.chernonog.working.antifraud.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 //@Accessors(chain = true)
@@ -12,6 +10,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Entity
 @Builder
+@Getter
+@Setter
 public class UserEntity {
 
     @Id
