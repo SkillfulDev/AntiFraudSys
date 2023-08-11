@@ -13,8 +13,10 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -24,31 +26,22 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        //Веключаем способ передачи логина/пароля
-//                .httpBasic(Customizer.withDefaults())
-//
-//                .headers(f->f.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-//                .csrf(d->d.ignoringRequestMatchers("/h2/**").disable())
-//
-////
-//                .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-//               .securityMatcher("/h2/**")
-//                .authorizeHttpRequests(c -> c.requestMatchers(
-//                                "/api/auth/user").permitAll().anyRequest().permitAll())
-//                .sessionManagement(session -> session
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//
-//                .build();
-        http.authorizeHttpRequests(c -> c.requestMatchers(toH2Console())
-                        .permitAll())
-                .csrf(c -> c.ignoringRequestMatchers(toH2Console()));
+        http.httpBasic(Customizer.withDefaults());
+        http.sessionManagement(c -> c.sessionCreationPolicy(STATELESS));
+//        http.authorizeHttpRequests(c -> c.requestMatchers(toH2Console())
+//                .permitAll()
+//              http.authorizeHttpRequests(w->w.requestMatchers
+//                              (new AntPathRequestMatcher( "/h2/")).permitAll().requestMatchers(new AntPathRequestMatcher("/api/auth/user")).permitAll()
+//                .anyRequest().permitAll());
+        http.authorizeHttpRequests(req -> req
+                        .requestMatchers(antMatcher("/api/auth/user")).permitAll()
+                        .requestMatchers(antMatcher(toH2Console().toString())).permitAll());
+//                .permitAll();
 
 
-        return http.authorizeHttpRequests(c -> c.requestMatchers(antMatcher(
-                                "/api/auth/user")).permitAll()
-                        .anyRequest().permitAll())
-                .build();
+        http.csrf(c -> c.ignoringRequestMatchers(toH2Console()));
+        http.headers(headers -> headers.frameOptions(z -> z.sameOrigin()));
+        return http.build();
 
     }
 }
