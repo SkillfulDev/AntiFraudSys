@@ -26,22 +26,20 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.httpBasic(Customizer.withDefaults());
-        http.sessionManagement(c -> c.sessionCreationPolicy(STATELESS));
-//        http.authorizeHttpRequests(c -> c.requestMatchers(toH2Console())
-//                .permitAll()
-//              http.authorizeHttpRequests(w->w.requestMatchers
-//                              (new AntPathRequestMatcher( "/h2/")).permitAll().requestMatchers(new AntPathRequestMatcher("/api/auth/user")).permitAll()
-//                .anyRequest().permitAll());
-        http.authorizeHttpRequests(req -> req
-                        .requestMatchers(antMatcher("/api/auth/user")).permitAll()
-                        .requestMatchers(antMatcher(toH2Console().toString())).permitAll());
-//                .permitAll();
+        return http
+                .httpBasic(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)                           // For modifying requests via Postman
 
-
-        http.csrf(c -> c.ignoringRequestMatchers(toH2Console()));
-        http.headers(headers -> headers.frameOptions(z -> z.sameOrigin()));
-        return http.build();
-
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))           // for Postman, the H2 console
+                .authorizeHttpRequests(requests -> requests                     // manage access
+                                .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
+                                .requestMatchers("/actuator/shutdown").permitAll()      // needs to run test
+                        // other matchers
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session
+                )
+                // other configurations
+                .build();
     }
 }
