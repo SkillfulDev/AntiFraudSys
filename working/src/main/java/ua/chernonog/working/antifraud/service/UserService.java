@@ -2,18 +2,20 @@ package ua.chernonog.working.antifraud.service;
 
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.control.MappingControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.ErrorResponseException;
 import ua.chernonog.working.antifraud.entity.UserEntity;
-import ua.chernonog.working.antifraud.mapper.UserResToEntity;
+import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -22,17 +24,14 @@ import java.util.Optional;
 @Transactional
 public class UserService {
     UserRepository userRepository;
+    UserEntityToUserRes userEntityToUserRes;
 
     public UserRes saveUser(UserReq user) {
         Optional<UserEntity> userEntity = userRepository.findByNameIgnoreCase(user.getName());
         log.info("userEntity is ={} ", userEntity.isPresent());
         UserRes userRes = null;
         if (userEntity.isPresent()) {
-            UserEntity userFromDB = userEntity.get();
-            userRes = new UserRes()
-                    .setId(userFromDB.getId())
-                    .setName(userFromDB.getName())
-                    .setUsername(userFromDB.getUsername());
+             throw new ErrorResponseException(HttpStatus.CONFLICT);
         } else {
             UserEntity savedUser = userRepository.save(UserEntity.builder()
                     .name(user.getName())
@@ -45,5 +44,11 @@ public class UserService {
                     .setUsername(savedUser.getUsername());
         }
         return userRes;
+    }
+
+    public List<UserRes> getUsers() {
+      return  userRepository.findAll().stream().map(userEntityToUserRes::toUserRes)
+              .collect(Collectors.toList());
+
     }
 }

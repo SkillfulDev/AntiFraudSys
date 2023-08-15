@@ -10,9 +10,11 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class UserRes {
 
-    long id;
+    Long id;
 
     String name;
 
     String username;
+
+
 }

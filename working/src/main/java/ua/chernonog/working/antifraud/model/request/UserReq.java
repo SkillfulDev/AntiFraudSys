@@ -1,9 +1,8 @@
 package ua.chernonog.working.antifraud.model.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 @Getter
@@ -11,8 +10,12 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
+@Valid
 public class UserReq {
+    @NotNull
     String name;
+    @NotNull
     String username;
+    @NotNull
     String password;
 }

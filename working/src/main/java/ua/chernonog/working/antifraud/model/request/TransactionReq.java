@@ -6,5 +6,5 @@ import lombok.*;
 @Getter@Setter
 @NoArgsConstructor
 public class TransactionReq {
-    long amount;
+    Long amount;
 }

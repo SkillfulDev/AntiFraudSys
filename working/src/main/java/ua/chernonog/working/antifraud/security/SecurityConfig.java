@@ -33,7 +33,8 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))           // for Postman, the H2 console
                 .authorizeHttpRequests(requests -> requests                     // manage access
                                 .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
-                                .requestMatchers("/actuator/shutdown").permitAll()      // needs to run test
+                                .requestMatchers("/api/auth/list").permitAll()
+                                .anyRequest().permitAll()// needs to run test
                         // other matchers
                 )
                 .sessionManagement(session -> session
