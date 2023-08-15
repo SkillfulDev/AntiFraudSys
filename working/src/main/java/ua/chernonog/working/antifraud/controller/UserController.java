@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.service.UserService;
+
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -16,10 +17,8 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/api/auth/user")
-    String etUser(@RequestBody UserReq user) {
-        log.info("user ={}",user);
-        userService.saveUser(user);
-        return "2";
+    UserRes regUser(@RequestBody UserReq user) {
+        return userService.saveUser(user);
     }
 
 }
