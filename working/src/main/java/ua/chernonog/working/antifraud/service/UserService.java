@@ -2,12 +2,15 @@ package ua.chernonog.working.antifraud.service;
 
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.ErrorResponseException;
 import ua.chernonog.working.antifraud.entity.UserEntity;
+import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
@@ -19,12 +22,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
-@Service
-//@NoArgsConstructor
 @Transactional
+@Service
 public class UserService {
     UserRepository userRepository;
     UserEntityToUserRes userEntityToUserRes;
+
+
+
 
     public UserRes saveUser(UserReq user) {
         Optional<UserEntity> userEntity = userRepository.findByNameIgnoreCase(user.getName());
@@ -46,9 +51,10 @@ public class UserService {
         return userRes;
     }
 
-    public List<UserRes> getUsers() {
-      return  userRepository.findAll().stream().map(userEntityToUserRes::toUserRes)
-              .collect(Collectors.toList());
-
-    }
+//    public List<UserRes> getUsers() {
+//      return  userRepository.findAll()
+//              .stream().map()
+//              .collect(Collectors.toList());
+//
+//    }
 }

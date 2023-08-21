@@ -24,10 +24,10 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/api/auth/list")
-    List<UserRes> getUsers(){
-        return userService.getUsers();
-
-    }
+//    @GetMapping("/api/auth/list")
+//    List<UserRes> getUsers(){
+//        return userService.getUsers();
+//
+//    }
 
 }

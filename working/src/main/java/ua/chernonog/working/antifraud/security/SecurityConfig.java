@@ -28,34 +28,32 @@ import ua.chernonog.working.antifraud.repository.UserRepository;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 //@EnableWebSecurity
-@Configuration
 @EnableMethodSecurity
-public class SecurityConfig {
-
+@Configuration
+class SecurityConfiguration {
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)                           // For modifying requests via Postman
-
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))           // for Postman, the H2 console
-                .authorizeHttpRequests(requests -> requests                     // manage access
-                                .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
-                                .requestMatchers("/api/auth/list").permitAll()
-                                .anyRequest().permitAll()// needs to run test
-                        // other matchers
-                )
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session
-                )
-                // other configurations
-                .build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(c -> c
+                .requestMatchers("/api/auth/**").permitAll()
+//                .requestMatchers(POST, "/register").permitAll()
+                .requestMatchers("/error").permitAll()
+                .anyRequest().authenticated());
+        http.sessionManagement(c -> c.sessionCreationPolicy(STATELESS));
+        http.httpBasic(withDefaults());
+        http.csrf(AbstractHttpConfigurer::disable);
+//        http.csrf(c -> c
+//                .ignoringRequestMatchers("/register")
+//                .ignoringRequestMatchers(antMatcher("/h2/**")));
+        http.cors(AbstractHttpConfigurer::disable);
+        http.headers(c -> c
+                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        return http.build();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
