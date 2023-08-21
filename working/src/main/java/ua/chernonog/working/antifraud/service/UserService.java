@@ -22,15 +22,16 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
-@Transactional
+
 @Service
 public class UserService {
     UserRepository userRepository;
+
     UserEntityToUserRes userEntityToUserRes;
 
 
 
-
+    @Transactional
     public UserRes saveUser(UserReq user) {
         Optional<UserEntity> userEntity = userRepository.findByNameIgnoreCase(user.getName());
         log.info("userEntity is ={} ", userEntity.isPresent());
@@ -51,10 +52,10 @@ public class UserService {
         return userRes;
     }
 
-//    public List<UserRes> getUsers() {
-//      return  userRepository.findAll()
-//              .stream().map()
-//              .collect(Collectors.toList());
-//
-//    }
+    public List<UserRes> getUsers() {
+      return  userRepository.findAll()
+              .stream().map(c->userEntityToUserRes.toUserRes(c))
+              .collect(Collectors.toList());
+
+    }
 }

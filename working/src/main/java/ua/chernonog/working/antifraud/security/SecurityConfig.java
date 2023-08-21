@@ -39,8 +39,8 @@ class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(c -> c
-                .requestMatchers("/api/auth/**").permitAll()
-//                .requestMatchers(POST, "/register").permitAll()
+                .requestMatchers("/api/auth/user").permitAll()
+                .requestMatchers("/api/auth/list").permitAll()
                 .requestMatchers("/error").permitAll()
                 .anyRequest().authenticated());
         http.sessionManagement(c -> c.sessionCreationPolicy(STATELESS));
@@ -54,20 +54,20 @@ class SecurityConfiguration {
                 .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http.build();
     }
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
-
-        return username -> userRepository
-                .findByUsernameIgnoreCase(username)
-                .map(user-> User.builder().username(user.getUsername())
-                        .password(user.getPassword()).build())
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
-
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Bean
+//    public UserDetailsService userDetailsService(UserRepository userRepository) {
+//
+//        return username -> userRepository
+//                .findByUsernameIgnoreCase(username)
+//                .map(user-> User.builder().username(user.getUsername())
+//                        .password(user.getPassword()).build())
+//                .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
+//
+//    }
 
 }
