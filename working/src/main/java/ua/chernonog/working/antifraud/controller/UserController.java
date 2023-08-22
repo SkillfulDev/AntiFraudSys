@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
-    UserRes regUser(@Valid @RequestBody UserReq user) {
+   public UserRes regUser(@Valid @RequestBody UserReq user) {
         log.info("request = {}", user);
         return userService.saveUser(user);
 //        return ResponseEntity.status(HttpStatus.CREATED)
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/api/auth/list")
-    List<UserRes> getUsers() {
+    public List<UserRes> getUsers() {
         return userService.getUsers();
 
     }
