@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.ErrorResponseException;
 import ua.chernonog.working.antifraud.entity.UserEntity;
-import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
+//import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.mapper.UserReqToUserEntity;
 import ua.chernonog.working.antifraud.model.request.UserReq;

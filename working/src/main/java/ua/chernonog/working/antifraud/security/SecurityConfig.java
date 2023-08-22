@@ -30,7 +30,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
+//import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.repository.UserRepository;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -62,10 +62,10 @@ class SecurityConfiguration {
         http.authorizeHttpRequests(c -> c
 
                         .requestMatchers(antMatcher("/api/auth/user")).permitAll()
-//                .requestMatchers(antMatcher("actuator/**)")).permitAll()
+                .requestMatchers(antMatcher("actuator/shutdown)")).permitAll()
                         .requestMatchers(antMatcher("/error")).permitAll()
-//                        .requestMatchers("api/**").authenticated()
-                        .anyRequest().permitAll()
+                        .requestMatchers(antMatcher("api/**")).authenticated()
+                        .anyRequest().authenticated()
         );
 
 
@@ -85,6 +85,7 @@ class SecurityConfiguration {
         return username -> userRepository
                 .findByUsernameIgnoreCase(username)
                 .map(user -> User.withUsername(user.getUsername())
+                        .authorities("ROLE_USER")
                         .password(user.getPassword()).build())
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
 
