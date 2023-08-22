@@ -33,8 +33,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.repository.UserRepository;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.http.HttpMethod.POST;
@@ -43,10 +45,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 
-@Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 @EnableMethodSecurity
-@Slf4j
+@Configuration
 class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -59,80 +60,47 @@ class SecurityConfiguration {
 //                });
 
         http.authorizeHttpRequests(c -> c
+
                         .requestMatchers(antMatcher("/api/auth/user")).permitAll()
 //                .requestMatchers(antMatcher("actuator/**)")).permitAll()
                         .requestMatchers(antMatcher("/error")).permitAll()
-                        .requestMatchers("api/**").authenticated()
-                        .anyRequest().denyAll()
+//                        .requestMatchers("api/**").authenticated()
+                        .anyRequest().permitAll()
         );
-//        http.exceptionHandling(c->c.accessDeniedHandler((request, response, authException) -> {
-//            // Логируйте ошибку аутентификации
-//            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
-//
-//                    logger.error("Authentication error: {}", authException.getMessage(), authException);
-//                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");
-//                })
-//                .accessDeniedHandler((request, response, accessDeniedException) -> {
-//                    // Логируйте ошибку доступа
-//                    org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
-//                    logger.error("Access denied: {}", accessDeniedException.getMessage(), accessDeniedException);
-//                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
-//                }));
-        http.exceptionHandling(c -> c
-                        .authenticationEntryPoint(authenticationEntryPoint())
-                        .accessDeniedHandler(accessDeniedHandler())
-                )
-                .formLogin(c -> c
-                        .failureHandler(authenticationFailureHandler())
-                );
+
 
         return http.build();
     }
 
-    private AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, authException) -> {
-//            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
-            log.error("Authentication error: {}", authException.getMessage(), authException);
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");
-        };
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-    private AccessDeniedHandler accessDeniedHandler() {
-        return (request, response, accessDeniedException) -> {
-//            org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
-            log.error("Access denied: {}", accessDeniedException.getMessage(), accessDeniedException);
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
-        };
-    }
+    @Bean
+    public UserDetailsService userDetailsService(
+            UserRepository userRepository) {
 
-    private AuthenticationFailureHandler authenticationFailureHandler() {
-        return new SimpleUrlAuthenticationFailureHandler() {
-            @Override
-            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                                AuthenticationException exception) throws IOException, ServletException {
-//                org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
-                log.error("Authentication failure: {}", exception.getMessage(), exception);
-                super.onAuthenticationFailure(request, response, exception);
-            }
-        };
-    }
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
-
-        @Bean
-        public UserDetailsService userDetailsService(
-                UserRepository userRepository) {
-
-            return username -> userRepository
-                    .findByUsernameIgnoreCase(username)
-                    .map(user -> User.withUsername(user.getUsername())
-                            .password(user.getPassword()).build())
-                    .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
-
-        }
+        return username -> userRepository
+                .findByUsernameIgnoreCase(username)
+                .map(user -> User.withUsername(user.getUsername())
+                        .password(user.getPassword()).build())
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
 
     }
+//    @Bean
+//    public UserDetailsService userDetailsService(UserRepository userRepository) {
+//        return username -> userRepository
+//                .findByUsernameIgnoreCase(username)
+//                .map(userEntity -> {
+//                    return new org.springframework.security.core.userdetails.User(
+//                            userEntity.getUsername(),
+//                            userEntity.getPassword(),
+//                            new ArrayList<>()); // You can add roles/authorities here if needed
+//                })
+//                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
+//    }
+}
 
 

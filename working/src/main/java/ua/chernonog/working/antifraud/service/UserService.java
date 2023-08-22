@@ -34,7 +34,7 @@ public class UserService {
 
     UserReqToUserEntity userEntity;
 
-//    PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
 
 //    @Transactional
@@ -43,11 +43,11 @@ public class UserService {
         if (userRepository.existsByNameIgnoreCase(user.getName())) {
             throw new ErrorResponseException(HttpStatus.CONFLICT);
         } else {
-//            String hashPassword= passwordEncoder.encode(user.getPassword());
+            String hashPassword= passwordEncoder.encode(user.getPassword());
             var savedUser = UserEntity.builder()
                     .name(user.getName())
                     .username(user.getUsername())
-                    .password("hashPassword").build();
+                    .password(hashPassword).build();
             savedUser = userRepository.save(savedUser);
             userRes = userEntityToUserRes.toUserRes(savedUser);
         }
