@@ -7,10 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.control.MappingControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.ErrorResponseException;
+import org.springframework.web.server.ResponseStatusException;
 import ua.chernonog.working.antifraud.entity.UserEntity;
 //import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
@@ -37,13 +39,13 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-//    @Transactional
+    //    @Transactional
     public UserRes saveUser(UserReq user) {
         UserRes userRes;
         if (userRepository.existsByNameIgnoreCase(user.getName())) {
             throw new ErrorResponseException(HttpStatus.CONFLICT);
         } else {
-            String hashPassword= passwordEncoder.encode(user.getPassword());
+            String hashPassword = passwordEncoder.encode(user.getPassword());
             var savedUser = UserEntity.builder()
                     .name(user.getName())
                     .username(user.getUsername())
@@ -61,4 +63,14 @@ public class UserService {
                 .collect(Collectors.toList());
 
     }
+
+    @Transactional
+    public void delete(String username) {
+        if (!userRepository.existsByUsernameIgnoreCase(username)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else {
+            userRepository.deleteByUsernameIgnoreCase(username);
+        }
+    }
 }
+

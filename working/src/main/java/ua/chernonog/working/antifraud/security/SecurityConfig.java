@@ -32,11 +32,13 @@ import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
+import ua.chernonog.working.antifraud.model.security.UserDetailsImpl;
 import ua.chernonog.working.antifraud.repository.UserRepository;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.http.HttpMethod.POST;
@@ -45,7 +47,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 
-//@EnableWebSecurity
+@EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
 class SecurityConfiguration {
@@ -56,22 +58,15 @@ class SecurityConfiguration {
                 .headers(hc -> hc.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement(c -> c.sessionCreationPolicy(STATELESS))
                 .httpBasic(withDefaults());
-//                .httpBasic(c -> {
-//                });
-
         http.authorizeHttpRequests(c -> c
-
-                        .requestMatchers(antMatcher("/api/auth/user")).permitAll()
+                .requestMatchers(antMatcher("/api/auth/user")).permitAll()
                 .requestMatchers(antMatcher("actuator/shutdown)")).permitAll()
-                        .requestMatchers(antMatcher("/error")).permitAll()
-                        .requestMatchers(antMatcher("api/**")).authenticated()
-                        .anyRequest().authenticated()
+                .requestMatchers(antMatcher("/error")).permitAll()
+                .requestMatchers(antMatcher("api/**")).authenticated()
+                .anyRequest().authenticated()
         );
-
-
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -84,24 +79,13 @@ class SecurityConfiguration {
 
         return username -> userRepository
                 .findByUsernameIgnoreCase(username)
-                .map(user -> User.withUsername(user.getUsername())
-                        .authorities("ROLE_USER")
-                        .password(user.getPassword()).build())
+                .map(user -> new UserDetailsImpl(user.getUsername(),user.getPassword()))
+//                        User.withUsername(user.getUsername())
+//                        .authorities("ROLE_USER")
+//                        .password(user.getPassword()).build())
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
 
     }
-//    @Bean
-//    public UserDetailsService userDetailsService(UserRepository userRepository) {
-//        return username -> userRepository
-//                .findByUsernameIgnoreCase(username)
-//                .map(userEntity -> {
-//                    return new org.springframework.security.core.userdetails.User(
-//                            userEntity.getUsername(),
-//                            userEntity.getPassword(),
-//                            new ArrayList<>()); // You can add roles/authorities here if needed
-//                })
-//                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
-//    }
 }
 
 

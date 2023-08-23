@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.chernonog.working.antifraud.model.request.UserReq;
+import ua.chernonog.working.antifraud.model.respons.UserDelRes;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.service.UserService;
 
@@ -21,7 +22,7 @@ public class UserController {
 
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
-   public UserRes regUser(@Valid @RequestBody UserReq user) {
+    public UserRes regUser(@Valid @RequestBody UserReq user) {
         log.info("request = {}", user);
         return userService.saveUser(user);
 //        return ResponseEntity.status(HttpStatus.CREATED)
@@ -29,9 +30,17 @@ public class UserController {
     }
 
     @GetMapping("/api/auth/list")
+    @ResponseStatus(HttpStatus.OK)
     public List<UserRes> getUsers() {
         return userService.getUsers();
+    }
 
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/api/auth/user/{username}")
+    public UserDelRes deleteUser(@PathVariable(value = "username") String username) {
+        log.info("{}->username", username);
+        userService.delete(username);
+        return new UserDelRes(username,"Deleted successfully!");
     }
 
 }

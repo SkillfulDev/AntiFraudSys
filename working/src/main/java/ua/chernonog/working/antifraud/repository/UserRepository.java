@@ -8,17 +8,14 @@ import ua.chernonog.working.antifraud.entity.UserEntity;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByNameIgnoreCase(String name);
 
     boolean existsByNameIgnoreCase(String username);
 
+    boolean existsByUsernameIgnoreCase(String username);
+
     Optional<UserEntity> findByUsernameIgnoreCase(String username);
 
-//    Optional<User> findByUsernameIgnoreCase(String username);
-
-
-
-
+    long deleteByUsernameIgnoreCase(String username);
 
 
 
