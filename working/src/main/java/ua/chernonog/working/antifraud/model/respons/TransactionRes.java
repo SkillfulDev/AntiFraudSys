@@ -1,7 +1,7 @@
 package ua.chernonog.working.antifraud.model.respons;
 
 import lombok.*;
-import ua.chernonog.working.antifraud.model.Permission;
+import ua.chernonog.working.antifraud.model.emuns.Permission;
 
 @Getter
 @Setter

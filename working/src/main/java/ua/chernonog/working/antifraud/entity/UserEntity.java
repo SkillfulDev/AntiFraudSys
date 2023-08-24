@@ -3,6 +3,7 @@ package ua.chernonog.working.antifraud.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
+import ua.chernonog.working.antifraud.model.emuns.Role;
 
 //@Accessors(chain = true)
 
@@ -23,5 +24,7 @@ public class UserEntity {
     String username;
 
     String password;
+    @Enumerated
+    Role role;
 }
 

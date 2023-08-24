@@ -4,11 +4,13 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserDelRes;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.service.UserService;
+import ua.chernonog.working.exception.TestException;
 
 import java.util.List;
 
@@ -39,5 +41,7 @@ public class UserController {
         userService.delete(username);
         return new UserDelRes(username,"Deleted successfully!");
     }
+
+
 
 }
