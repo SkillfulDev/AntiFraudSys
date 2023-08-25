@@ -17,6 +17,7 @@ import ua.chernonog.working.antifraud.entity.UserEntity;
 //import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.mapper.UserReqToUserEntity;
+import ua.chernonog.working.antifraud.model.emuns.Role;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.repository.UserRepository;
@@ -39,20 +40,32 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-    //    @Transactional
+    @Transactional
     public UserRes saveUser(UserReq user) {
         UserRes userRes;
-        if (userRepository.existsByNameIgnoreCase(user.getName())) {
-            throw new ErrorResponseException(HttpStatus.CONFLICT);
-        } else {
-            String hashPassword = passwordEncoder.encode(user.getPassword());
-            var savedUser = UserEntity.builder()
+        UserEntity userEntity;
+        String hashPassword = passwordEncoder.encode(user.getPassword());
+        if (userRepository.count() == 0) {
+            userEntity = UserEntity.builder()
                     .name(user.getName())
                     .username(user.getUsername())
-                    .password(hashPassword).build();
-            savedUser = userRepository.save(savedUser);
-            userRes = userEntityToUserRes.toUserRes(savedUser);
+                    .password(hashPassword)
+                    .role(Role.ADMINISTRATOR)
+                    .build();
+        } else if (userRepository.existsByNameIgnoreCase(user.getName())) {
+            throw new ErrorResponseException(HttpStatus.CONFLICT);
+        } else {
+
+            userEntity = UserEntity.builder()
+                    .name(user.getName())
+                    .username(user.getUsername())
+                    .password(hashPassword)
+                    .role(Role.MERCHANT)
+                    .build();
         }
+        userRepository.save(userEntity);
+        userRes = userEntityToUserRes.toUserRes(userEntity);
+
         return userRes;
     }
 
