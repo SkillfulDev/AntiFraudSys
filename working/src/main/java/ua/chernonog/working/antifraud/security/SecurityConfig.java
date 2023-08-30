@@ -31,6 +31,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
+import org.springframework.web.cors.CorsConfiguration;
 import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.model.security.UserDetailsImpl;
 import ua.chernonog.working.antifraud.repository.UserRepository;
@@ -65,6 +66,8 @@ class SecurityConfiguration {
                 .requestMatchers(antMatcher("api/**")).authenticated()
                 .anyRequest().authenticated()
         );
+        http.cors(r->new CorsConfiguration().applyPermitDefaultValues());
+
         return http.build();
     }
 
