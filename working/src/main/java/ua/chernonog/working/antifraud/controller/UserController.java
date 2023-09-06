@@ -22,7 +22,7 @@ public class UserController {
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserRes regUser(@Valid @RequestBody UserReq user) {
-        log.info("request = {}", user);
+        log.info("request = {}", user.getLocalDate());
         return userService.saveUser(user);
     }
 

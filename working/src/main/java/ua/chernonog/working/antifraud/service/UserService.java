@@ -44,6 +44,7 @@ public class UserService {
     public UserRes saveUser(UserReq user) {
         UserRes userRes;
         UserEntity userEntity;
+
         String hashPassword = passwordEncoder.encode(user.getPassword());
         if (userRepository.count() == 0) {
             userEntity = UserEntity.builder()
@@ -51,7 +52,9 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.ADMINISTRATOR)
+                    .localDate(user.getLocalDate())
                     .build();
+
         } else if (userRepository.existsByNameIgnoreCase(user.getName())) {
             throw new ErrorResponseException(HttpStatus.CONFLICT);
         } else {
@@ -61,11 +64,12 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.MERCHANT)
+                    .localDate(user.getLocalDate())
                     .build();
         }
         userRepository.save(userEntity);
         userRes = userEntityToUserRes.toUserRes(userEntity);
-
+        log.info("localDate = {}",userRes.getLocalDate());
         return userRes;
     }
 

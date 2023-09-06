@@ -74,7 +74,8 @@ class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    } //TODO
+
 
     @Bean
     public UserDetailsService userDetailsService(

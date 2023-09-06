@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,4 +20,7 @@ public class UserReq {
     String username;
     @NotNull
     String password;
+
+    @NotNull
+    LocalDate localDate;
 }

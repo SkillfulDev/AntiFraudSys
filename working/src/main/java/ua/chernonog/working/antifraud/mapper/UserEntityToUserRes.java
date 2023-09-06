@@ -9,7 +9,7 @@ import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(componentModel = "spring"
         ,unmappedTargetPolicy = IGNORE
-        ,unmappedSourcePolicy = IGNORE)
+        )
 
 public interface UserEntityToUserRes {
 
