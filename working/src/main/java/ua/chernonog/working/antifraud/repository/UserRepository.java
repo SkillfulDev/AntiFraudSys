@@ -1,8 +1,6 @@
 package ua.chernonog.working.antifraud.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Repository;
 import ua.chernonog.working.antifraud.entity.UserEntity;
 
 import java.util.Optional;
