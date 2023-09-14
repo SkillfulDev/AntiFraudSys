@@ -1,48 +1,22 @@
 package ua.chernonog.working.antifraud.security;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
 import org.springframework.web.cors.CorsConfiguration;
-import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
 import ua.chernonog.working.antifraud.model.security.UserDetailsImpl;
 import ua.chernonog.working.antifraud.repository.UserRepository;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -60,11 +34,13 @@ class SecurityConfiguration {
                 .sessionManagement(c -> c.sessionCreationPolicy(STATELESS))
                 .httpBasic(withDefaults());
         http.authorizeHttpRequests(c -> c
-                .requestMatchers(antMatcher("/api/auth/user")).permitAll()
-                .requestMatchers(antMatcher("actuator/shutdown)")).permitAll()
-                .requestMatchers(antMatcher("/error")).permitAll()
-                .requestMatchers(antMatcher("api/**")).authenticated()
-                .anyRequest().authenticated()
+//                .requestMatchers(antMatcher("/api/auth/user")).permitAll()
+//                .requestMatchers(antMatcher("actuator/shutdown)")).permitAll()
+//                .requestMatchers(antMatcher("/error")).permitAll()
+//                .requestMatchers(antMatcher("/swagger-ui/**")).permitAll()
+//                .requestMatchers(antMatcher("/v2/api-docs")).permitAll()
+//                .requestMatchers(antMatcher("api/**")).authenticated()
+                .anyRequest().permitAll()
         );
         http.cors(r->new CorsConfiguration().applyPermitDefaultValues());
 
