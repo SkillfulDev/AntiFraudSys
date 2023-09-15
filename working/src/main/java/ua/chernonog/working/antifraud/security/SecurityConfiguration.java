@@ -34,14 +34,14 @@ class SecurityConfiguration {
                 .sessionManagement(c -> c.sessionCreationPolicy(STATELESS))
                 .httpBasic(withDefaults());
         http.authorizeHttpRequests(c -> c
-                .requestMatchers(antMatcher("/api/auth/user")).permitAll()
-                .requestMatchers(antMatcher("actuator/shutdown)")).permitAll()
-                .requestMatchers(antMatcher("/error")).permitAll()
-                .requestMatchers(antMatcher("/swagger-ui")).permitAll()
-                .requestMatchers(antMatcher("/v3/api-docs")).permitAll()
-                .requestMatchers(antMatcher("api/**")).authenticated()
+//                .requestMatchers(antMatcher("/api/auth/user")).permitAll()
+//                .requestMatchers(antMatcher("/actuator/health)")).permitAll()
+//                .requestMatchers(antMatcher("/error")).permitAll()
+//                .requestMatchers(antMatcher("/swagger-ui")).permitAll()
+//                .requestMatchers(antMatcher("/v3/api-docs")).permitAll()
+//                .requestMatchers(antMatcher("api/**")).authenticated()
 
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
 //        )
 //                .formLogin(formLogin -> formLogin
 //                        .loginPage("/8.8.8.8")
