@@ -11,6 +11,7 @@ import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class UserController {
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserRes regUser(@Valid @RequestBody UserReq user) {
-        log.info("request = {}", user.getLocalDate());
+        log.info("request = {}", user.getLocalTime());
         return userService.saveUser(user);
     }
 
@@ -31,6 +32,15 @@ public class UserController {
     public List<UserRes> getUsers() {
         return userService.getUsers();
     }
+
+//    @PutMapping("/api/auth/role")
+//    @ResponseStatus(HttpStatus.OK)
+//    public UserRes changeRole(@RequestBody Map<String, Object> requestMap) {
+//
+//        log.info("Map includes ={}",requestMap.values());
+//        return userService.changeRole(requestMap);
+////        return null;
+//    }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/api/auth/user/{username}")

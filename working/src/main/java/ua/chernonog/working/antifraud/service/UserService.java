@@ -23,6 +23,7 @@ import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.repository.UserRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,7 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.ADMINISTRATOR)
-                    .localDate(user.getLocalDate())
+                    .localTime(user.getLocalTime())
                     .build();
 
         } else if (userRepository.existsByNameIgnoreCase(user.getName())) {
@@ -64,12 +65,12 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.MERCHANT)
-                    .localDate(user.getLocalDate())
+                    .localTime(user.getLocalTime())
                     .build();
         }
         userRepository.save(userEntity);
         userRes = userEntityToUserRes.toUserRes(userEntity);
-        log.info("localDate = {}",userRes.getLocalDate());
+//        log.info("localDate = {}", userRes.getLocalDate());
         return userRes;
     }
 
@@ -90,4 +91,5 @@ public class UserService {
         }
     }
 }
+
 

@@ -6,7 +6,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import ua.chernonog.working.antifraud.model.emuns.Role;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
+import java.time.LocalTime;
 
 //@Accessors(chain = true)
 
@@ -30,7 +31,7 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    LocalDate localDate;
+
+    LocalTime localTime;
 }
 

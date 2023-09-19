@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -21,6 +22,5 @@ public class UserReq {
     @NotNull
     String password;
 
-    @NotNull
-    LocalDate localDate;
+    LocalTime localTime = LocalTime.now();
 }

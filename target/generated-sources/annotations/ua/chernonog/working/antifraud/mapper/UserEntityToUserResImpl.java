@@ -7,7 +7,7 @@ import ua.chernonog.working.antifraud.model.respons.UserRes;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-14T11:18:35+0300",
+    date = "2023-09-19T11:43:58+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
@@ -25,7 +25,7 @@ public class UserEntityToUserResImpl implements UserEntityToUserRes {
         userRes.setName( userEntity.getName() );
         userRes.setUsername( userEntity.getUsername() );
         userRes.setRole( userEntity.getRole() );
-        userRes.setLocalDate( userEntity.getLocalDate() );
+        userRes.setLocalTime( userEntity.getLocalTime() );
 
         return userRes;
     }

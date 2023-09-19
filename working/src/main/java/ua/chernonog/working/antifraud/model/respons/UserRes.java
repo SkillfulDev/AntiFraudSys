@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import ua.chernonog.working.antifraud.model.emuns.Role;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Accessors(chain = true)
 @Getter
@@ -21,7 +22,7 @@ public class UserRes {
 
     Role role;
 
-    LocalDate localDate;
+    LocalTime localTime;
 
 
 }
