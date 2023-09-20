@@ -22,7 +22,6 @@ public class UserRes {
 
     Role role;
 
-    LocalTime localTime;
 
 
 }

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
+import ua.chernonog.working.antifraud.model.emuns.Role;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,6 +22,7 @@ public class UserReq {
     String username;
     @NotNull
     String password;
+    Role role;
 
-    LocalTime localTime = LocalTime.now();
+
 }

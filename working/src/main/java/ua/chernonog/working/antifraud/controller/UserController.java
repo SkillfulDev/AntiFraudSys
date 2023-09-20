@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserDelRes;
@@ -23,7 +24,7 @@ public class UserController {
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserRes regUser(@Valid @RequestBody UserReq user) {
-        log.info("request = {}", user.getLocalTime());
+
         return userService.saveUser(user);
     }
 
@@ -33,23 +34,20 @@ public class UserController {
         return userService.getUsers();
     }
 
-//    @PutMapping("/api/auth/role")
-//    @ResponseStatus(HttpStatus.OK)
-//    public UserRes changeRole(@RequestBody Map<String, Object> requestMap) {
-//
-//        log.info("Map includes ={}",requestMap.values());
-//        return userService.changeRole(requestMap);
-////        return null;
-//    }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/api/auth/user/{username}")
     public UserDelRes deleteUser(@PathVariable(value = "username") String username) {
         log.info("{}->username", username);
         userService.delete(username);
-        return new UserDelRes(username,"Deleted successfully!");
+        return new UserDelRes(username, "Deleted successfully!");
     }
 
+//    @PreAuthorize(value = "hasRole('ADMINISTRATOR')")
+    @PutMapping("/api/auth/role")
+    public UserRes changeRole(@RequestBody UserReq userReq) {
+        return userService.changeRole(userReq.getUsername(), userReq.getRole());
+    }
 
 
 }

@@ -6,8 +6,7 @@ import ua.chernonog.working.antifraud.entity.UserEntity;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 
 @Mapper( componentModel = "spring"
-        , unmappedTargetPolicy = ReportingPolicy.IGNORE
-        , unmappedSourcePolicy = ReportingPolicy.IGNORE)
+        , unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserReqToUserEntity {
     UserEntity userReqToUserEntity(UserReq userReq);
 }

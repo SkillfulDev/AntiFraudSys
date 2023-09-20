@@ -53,7 +53,6 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.ADMINISTRATOR)
-                    .localTime(user.getLocalTime())
                     .build();
 
         } else if (userRepository.existsByNameIgnoreCase(user.getName())) {
@@ -65,12 +64,10 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.MERCHANT)
-                    .localTime(user.getLocalTime())
                     .build();
         }
         userRepository.save(userEntity);
         userRes = userEntityToUserRes.toUserRes(userEntity);
-//        log.info("localDate = {}", userRes.getLocalDate());
         return userRes;
     }
 
@@ -89,6 +86,20 @@ public class UserService {
         } else {
             userRepository.deleteByUsernameIgnoreCase(username);
         }
+    }
+
+    public UserRes changeRole(String username, Role role) {
+        UserRes foundUser = userRepository
+                .findByUsernameIgnoreCase(username)
+                .map(c -> userEntityToUserRes.toUserRes(c))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        foundUser.setRole(role);
+        userRepository.updateRoleByUsername(role, username);
+
+
+        return foundUser;
+
+
     }
 }
 
