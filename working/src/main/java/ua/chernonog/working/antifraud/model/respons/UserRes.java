@@ -22,6 +22,8 @@ public class UserRes {
 
     Role role;
 
+    String status;
+
 
 
 }

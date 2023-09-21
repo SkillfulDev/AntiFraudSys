@@ -64,6 +64,8 @@ public class UserService {
                     .username(user.getUsername())
                     .password(hashPassword)
                     .role(Role.MERCHANT)
+                    .status("User " + user.getName() +" locked")
+//                    "User JohnDoe1 unlocked!
                     .build();
         }
         userRepository.save(userEntity);
@@ -93,10 +95,14 @@ public class UserService {
                 .findByUsernameIgnoreCase(username)
                 .map(c -> userEntityToUserRes.toUserRes(c))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        foundUser.setRole(role);
-        userRepository.updateRoleByUsername(role, username);
-
-
+        if (role == Role.ADMINISTRATOR) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        } else if (role == foundUser.getRole()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        } else {
+            foundUser.setRole(role);
+            userRepository.updateRoleByUsername(role, username);
+        }
         return foundUser;
 
 

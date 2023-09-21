@@ -1,5 +1,6 @@
 package ua.chernonog.working.antifraud.model.security;
 
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,7 +8,7 @@ import ua.chernonog.working.antifraud.model.emuns.Role;
 
 import java.util.Collection;
 import java.util.List;
-
+@ToString
 public class UserDetailsImpl implements UserDetails {
     private String username;
 

@@ -31,7 +31,7 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     Role role;
 
+    String status;
 
-    LocalTime localTime;
 }
 

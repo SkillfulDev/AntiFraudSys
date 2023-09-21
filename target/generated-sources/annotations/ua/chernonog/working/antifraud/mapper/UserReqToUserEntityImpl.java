@@ -7,7 +7,7 @@ import ua.chernonog.working.antifraud.model.request.UserReq;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-20T10:58:10+0300",
+    date = "2023-09-21T14:46:42+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
@@ -24,6 +24,7 @@ public class UserReqToUserEntityImpl implements UserReqToUserEntity {
         userEntity.name( userReq.getName() );
         userEntity.username( userReq.getUsername() );
         userEntity.password( userReq.getPassword() );
+        userEntity.role( userReq.getRole() );
 
         return userEntity.build();
     }

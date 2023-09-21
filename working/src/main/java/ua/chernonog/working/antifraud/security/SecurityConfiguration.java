@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,21 +35,21 @@ class SecurityConfiguration {
                 .sessionManagement(c -> c.sessionCreationPolicy(STATELESS))
                 .httpBasic(withDefaults());
         http.authorizeHttpRequests(c -> c
-                .requestMatchers(antMatcher("/api/auth/user")).permitAll()
-                .requestMatchers(antMatcher("/actuator/health)")).permitAll()
-                .requestMatchers(antMatcher("/error")).permitAll()
-                .requestMatchers(antMatcher("/swagger-ui")).permitAll()
-                .requestMatchers(antMatcher("/v3/api-docs")).permitAll()
-                .requestMatchers(antMatcher("api/**")).authenticated()
+                        .requestMatchers(antMatcher("/api/auth/user")).permitAll()
+                        .requestMatchers(antMatcher("/actuator/health)")).permitAll()
+                        .requestMatchers(antMatcher("/error")).permitAll()
+                        .requestMatchers(antMatcher("/swagger-ui")).permitAll()
+                        .requestMatchers(antMatcher("/v3/api-docs")).permitAll()
+                        .requestMatchers(antMatcher("api/**")).authenticated()
 //                .requestMatchers(antMatcher("/api/auth/role")).hasRole("ADMINISTRATOR")
-                .anyRequest().authenticated()
+                        .anyRequest().authenticated()
 //        )
 //                .formLogin(formLogin -> formLogin
 //                        .loginPage("/8.8.8.8")
 //                        .permitAll()
 
         );
-        http.cors(r->new CorsConfiguration().applyPermitDefaultValues());
+        http.cors(r -> new CorsConfiguration().applyPermitDefaultValues());
 
         return http.build();
     }
@@ -66,11 +67,8 @@ class SecurityConfiguration {
         return username -> userRepository
                 .findByUsernameIgnoreCase(username)
                 .map(user -> new UserDetailsImpl(user.getUsername()
-                        ,user.getPassword()
-                ,user.getRole()))
-//                        User.withUsername(user.getUsername())
-//                        .authorities("ROLE_USER")
-//                        .password(user.getPassword()).build())
+                        , user.getPassword()
+                        , user.getRole()))
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
 
     }

@@ -1,5 +1,6 @@
 package ua.chernonog.working.antifraud.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,13 +50,16 @@ public class UserController {
 
     @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
     @PutMapping("/api/auth/role")
+    @ResponseStatus(HttpStatus.OK)
     public UserRes changeRole(@RequestBody UserReq userReq) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("authentication {}",authentication);
-//      List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
-//        boolean isAdmin = authorities.stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMINISTRATOR"));
         return userService.changeRole(userReq.getUsername(), userReq.getRole());
     }
-
+    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
+    @PutMapping("/api/auth/access")
+    @ResponseStatus(HttpStatus.OK)
+    @JsonIgnoreProperties(value = {"id","username","password","role"})
+    public UserRes changeStatus(@RequestBody UserReq userReq) {
+//        return userService.changeStatus(userReq.getUsername(), userReq.getRole());
+    }
 
 }
