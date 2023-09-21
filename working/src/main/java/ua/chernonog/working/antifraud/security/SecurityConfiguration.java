@@ -40,6 +40,7 @@ class SecurityConfiguration {
                 .requestMatchers(antMatcher("/swagger-ui")).permitAll()
                 .requestMatchers(antMatcher("/v3/api-docs")).permitAll()
                 .requestMatchers(antMatcher("api/**")).authenticated()
+//                .requestMatchers(antMatcher("/api/auth/role")).hasRole("ADMINISTRATOR")
                 .anyRequest().authenticated()
 //        )
 //                .formLogin(formLogin -> formLogin
@@ -64,7 +65,9 @@ class SecurityConfiguration {
 
         return username -> userRepository
                 .findByUsernameIgnoreCase(username)
-                .map(user -> new UserDetailsImpl(user.getUsername(),user.getPassword()))
+                .map(user -> new UserDetailsImpl(user.getUsername()
+                        ,user.getPassword()
+                ,user.getRole()))
 //                        User.withUsername(user.getUsername())
 //                        .authorities("ROLE_USER")
 //                        .password(user.getPassword()).build())

@@ -3,6 +3,7 @@ package ua.chernonog.working.antifraud.model.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import ua.chernonog.working.antifraud.model.emuns.Role;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,15 +13,20 @@ public class UserDetailsImpl implements UserDetails {
 
     private String password;
 
+    private Role role;
 
-    public UserDetailsImpl(String username, String password) {
+
+
+
+    public UserDetailsImpl(String username, String password,Role role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(role);
     }
 
     @Override
