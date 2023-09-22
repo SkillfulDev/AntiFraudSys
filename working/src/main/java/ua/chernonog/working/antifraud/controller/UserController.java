@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.chernonog.working.antifraud.annotations.IsAdministratorOrIsSupport;
 import ua.chernonog.working.antifraud.annotations.IsAministrator;
 import ua.chernonog.working.antifraud.config.View;
 import ua.chernonog.working.antifraud.model.request.UserReq;
@@ -24,15 +25,13 @@ public class UserController {
     UserService userService;
 
     @JsonView(View.Summary.class)
-
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
-
     public UserRes regUser(@Valid @RequestBody UserReq user) {
-
         return userService.saveUser(user);
     }
 
+    @IsAdministratorOrIsSupport
     @GetMapping("/api/auth/list")
     @ResponseStatus(HttpStatus.OK)
     public List<UserRes> getUsers() {
@@ -48,7 +47,7 @@ public class UserController {
         return new UserDelRes(username, "Deleted successfully!");
     }
 
-//    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
+    //    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
     @IsAministrator
     @PutMapping("/api/auth/role")
     @ResponseStatus(HttpStatus.OK)
