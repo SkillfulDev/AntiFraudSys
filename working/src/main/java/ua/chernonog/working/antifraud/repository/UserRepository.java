@@ -13,15 +13,18 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Transactional
     @Modifying
     @Query("update UserEntity u set u.status = ?1 where u.username = ?2")
-    int updateStatusByUsername(String status, String username);
+    void updateStatusByUsername(String status, String username);
+
     @Transactional
     @Modifying
     @Query("update UserEntity u set u.username = ?1 where u.status = ?2")
     void updateUsernameByStatus(String username, String status);
+
     @Transactional
     @Modifying
     @Query("update UserEntity u set u.role = ?1 where u.username = ?2")
     void updateRoleByUsername(Role role, String username);
+
     @Transactional
     @Modifying
     @Query("update UserEntity u set u.role = ?1")
@@ -35,7 +38,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByUsernameIgnoreCase(String username);
 
     long deleteByUsernameIgnoreCase(String username);
-
 
 
 }
