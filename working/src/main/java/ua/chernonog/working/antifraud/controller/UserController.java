@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.chernonog.working.antifraud.annotations.IsAministrator;
 import ua.chernonog.working.antifraud.config.View;
 import ua.chernonog.working.antifraud.model.request.UserReq;
 import ua.chernonog.working.antifraud.model.respons.UserDelRes;
@@ -21,6 +22,7 @@ import java.util.List;
 public class UserController {
 
     UserService userService;
+
     @JsonView(View.Summary.class)
 
     @PostMapping("/api/auth/user")
@@ -37,7 +39,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-
+    @IsAministrator
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/api/auth/user/{username}")
     public UserDelRes deleteUser(@PathVariable(value = "username") String username) {
@@ -46,14 +48,15 @@ public class UserController {
         return new UserDelRes(username, "Deleted successfully!");
     }
 
-    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
+//    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
+    @IsAministrator
     @PutMapping("/api/auth/role")
     @ResponseStatus(HttpStatus.OK)
     public UserRes changeRole(@RequestBody UserReq userReq) {
         return userService.changeRole(userReq.getUsername(), userReq.getRole());
     }
 
-    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
+    @IsAministrator
     @PutMapping("/api/auth/access")
     @ResponseStatus(HttpStatus.OK)
     public UserRes changeStatus(@RequestBody UserReq userReq) {
