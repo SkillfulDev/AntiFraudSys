@@ -10,4 +10,6 @@ import ua.chernonog.working.antifraud.model.respons.IpResponse;
 public interface IpMapper {
     IpEntity ipReqToIpEntity(IpRequest ipRequest);
     IpResponse ipEntityToIpResponse(IpEntity ipEntity);
+
+    IpResponse ipEntityToIpRequest(IpEntity ipEntity);
 }

@@ -30,8 +30,19 @@ public class IpService {
     }
 
 
-    public void deleteSucpiciousIp(String ip) {
-       Optional<IpRequest> foundedIp=ipRepository.findByIp(ip);
-        ipRepository.delete(ipMapper.ipReqToIpEntity(c->IpMapper::ipReqToIpEntity(c));
+    public IpResponse deleteSucpiciousIp(String ip) {
+       Optional <IpEntity> foundedIpEntity = ipRepository.findByIp(ip);
+       log.info("isPresent={}",foundedIpEntity.isPresent());
+       if (foundedIpEntity.isPresent()){
+           IpEntity ipEntity = foundedIpEntity.get();
+           ipRepository.delete(ipEntity);
+           IpResponse ipResponse =ipMapper.ipEntityToIpRequest(ipEntity);
+           ipResponse.setStatus("IP "+ipResponse.getIp()+ " successfully removed!");
+           return ipResponse;
+
+       }else{
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+       }
+
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface IpRepository extends JpaRepository<IpEntity, Long> {
     boolean existsByIp(String ip);
 
-    Optional<IpRequest> findByIp(String ip);
+    Optional<IpEntity> findByIp(String ip);
 
 
 }
