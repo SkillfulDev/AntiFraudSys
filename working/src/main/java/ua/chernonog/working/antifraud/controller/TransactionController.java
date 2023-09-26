@@ -19,6 +19,6 @@ public class TransactionController {
     @PostMapping("/api/antifraud/transaction")
     @ResponseStatus(HttpStatus.OK)
     TransactionResponse statusOfPermission(@RequestBody TransactionRequest req) {
-        return transactionService.getResultOfPermission(req.getAmount());
+        return transactionService.getResultOfPermission(req.getAmount(),req.getIp(),req.getNumber());
     }
 }

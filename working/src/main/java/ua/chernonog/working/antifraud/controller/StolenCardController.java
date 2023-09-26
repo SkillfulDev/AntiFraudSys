@@ -13,6 +13,8 @@ import ua.chernonog.working.antifraud.model.request.StolenCardRequest;
 import ua.chernonog.working.antifraud.model.respons.StolenCardResponse;
 import ua.chernonog.working.antifraud.service.StolenCardService;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @Slf4j
@@ -29,11 +31,18 @@ public class StolenCardController {
     @IsSupport
     @JsonView(View.CardTop.class)
     @DeleteMapping("/api/antifraud/stolencard/{number}")
-    public StolenCardResponse deleteStolenCard(@PathVariable ("number")String number){
-        log.info("number={}",number);
-        if (!number.matches("^\\d{13,16}$")){
-            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    public StolenCardResponse deleteStolenCard(@PathVariable("number") String number) {
+        log.info("number={}", number);
+        if (!number.matches("^\\d{13,16}$")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return stolenCardService.delete(number);
+    }
+
+    @IsSupport
+    @JsonView(View.CardInternal.class)
+    @GetMapping("/api/antifraud/stolencard")
+    public List<StolenCardResponse> getAllStolenCard() {
+        return stolenCardService.getAllStolenCard();
     }
 }

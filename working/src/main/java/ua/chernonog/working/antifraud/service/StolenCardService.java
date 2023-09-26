@@ -3,6 +3,7 @@ package ua.chernonog.working.antifraud.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.filters.ExpiresFilter;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import ua.chernonog.working.antifraud.entity.StolenCardEntity;
 import ua.chernonog.working.antifraud.mapper.StolenCardMapper;
 import ua.chernonog.working.antifraud.model.respons.StolenCardResponse;
 import ua.chernonog.working.antifraud.repository.StolenCardRepository;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -64,5 +67,10 @@ public class StolenCardService {
          stolenCardResponse.setStatus("Card "+ number +" successfully removed!");
 
          return stolenCardResponse;
+    }
+
+    public List<StolenCardResponse> getAllStolenCard() {
+        return stolenCardRepository.findAll(Sort.by(Sort.Order.asc("id")))
+                .stream().map(stolenCardMapper::stolenEntityToStolenResponse).toList();
     }
 }

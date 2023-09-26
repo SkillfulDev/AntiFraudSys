@@ -7,4 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 public class TransactionRequest {
     Long amount;
+
+    String ip;
+
+    String number;
 }
