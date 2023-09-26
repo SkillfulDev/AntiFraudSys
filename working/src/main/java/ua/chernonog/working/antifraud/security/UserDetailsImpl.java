@@ -1,4 +1,4 @@
-package ua.chernonog.working.antifraud.model.security;
+package ua.chernonog.working.antifraud.security;
 
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;

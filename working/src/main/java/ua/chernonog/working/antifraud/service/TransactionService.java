@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.ErrorResponseException;
 import ua.chernonog.working.antifraud.model.emuns.Permission;
-import ua.chernonog.working.antifraud.model.respons.TransactionRes;
+import ua.chernonog.working.antifraud.model.respons.TransactionResponse;
 
 @Service
 public class TransactionService {
-    public TransactionRes getResultOfPermission(long amount) {
+    public TransactionResponse getResultOfPermission(long amount) {
 
-        TransactionRes response = new TransactionRes();
+        TransactionResponse response = new TransactionResponse();
 
         if (amount<0) {
 

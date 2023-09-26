@@ -37,7 +37,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByUsernameIgnoreCase(String username);
 
-    long deleteByUsernameIgnoreCase(String username);
+    void deleteByUsernameIgnoreCase(String username);
 
 
 }

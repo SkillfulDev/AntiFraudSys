@@ -17,6 +17,8 @@ import ua.chernonog.working.antifraud.model.request.IpRequest;
 import ua.chernonog.working.antifraud.model.respons.IpResponse;
 import ua.chernonog.working.antifraud.service.IpService;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -25,7 +27,8 @@ public class IpController {
     IpService ipService;
 
     @PostMapping("/api/antifraud/suspicious-ip")
-    @IsAministrator
+    @IsSupport
+    @JsonView(View.Public.class)
     public IpResponse saveSuspiciousIp(@RequestBody @Valid IpRequest ipRequest) {
         log.info("ipReq={}", ipRequest.getIp());
         return ipService.saveSuspiciousIp(ipRequest.getIp());
@@ -41,5 +44,11 @@ public class IpController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return ipService.deleteSucpiciousIp(ip);
+    }
+
+    @IsSupport
+    @GetMapping("/api/antifraud/suspicious-ip")
+    public List<IpResponse> getListSuspiciousIp() {
+        return ipService.getListSuspiciousIp();
     }
 }

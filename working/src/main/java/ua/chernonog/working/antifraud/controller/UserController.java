@@ -5,13 +5,12 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.chernonog.working.antifraud.annotations.IsAdministratorOrIsSupport;
 import ua.chernonog.working.antifraud.annotations.IsAministrator;
 import ua.chernonog.working.antifraud.config.View;
 import ua.chernonog.working.antifraud.model.request.UserReq;
-import ua.chernonog.working.antifraud.model.respons.UserDelRes;
+import ua.chernonog.working.antifraud.model.respons.UserDelResponse;
 import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.service.UserService;
 
@@ -41,13 +40,12 @@ public class UserController {
     @IsAministrator
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/api/auth/user/{username}")
-    public UserDelRes deleteUser(@PathVariable(value = "username") String username) {
+    public UserDelResponse deleteUser(@PathVariable(value = "username") String username) {
         log.info("{}->username", username);
         userService.delete(username);
-        return new UserDelRes(username, "Deleted successfully!");
+        return new UserDelResponse(username, "Deleted successfully!");
     }
 
-    //    @PreAuthorize(value = "hasRole('ROLE_ADMINISTRATOR')")
     @IsAministrator
     @PutMapping("/api/auth/role")
     @ResponseStatus(HttpStatus.OK)

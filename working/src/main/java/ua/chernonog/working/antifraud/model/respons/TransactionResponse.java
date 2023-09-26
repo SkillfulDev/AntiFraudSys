@@ -8,6 +8,6 @@ import ua.chernonog.working.antifraud.model.emuns.Permission;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionRes {
+public class TransactionResponse {
     Enum<Permission> result;
 }
