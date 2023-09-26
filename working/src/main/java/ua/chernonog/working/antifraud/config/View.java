@@ -1,8 +1,11 @@
 package ua.chernonog.working.antifraud.config;
 
 public class View {
-   public interface Summary {}
-   public interface Public {}
+   public interface IpTop {}
+   public interface IpInternal {}
+   public interface CardTop {}
+   public interface CardInternal {}
+
 
 
 }

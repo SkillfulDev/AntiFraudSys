@@ -23,7 +23,7 @@ public class UserController {
 
     UserService userService;
 
-    @JsonView(View.Summary.class)
+    @JsonView(View.IpTop.class)
     @PostMapping("/api/auth/user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserRes regUser(@Valid @RequestBody UserReq user) {

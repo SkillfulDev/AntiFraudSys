@@ -2,10 +2,7 @@ package ua.chernonog.working.antifraud.service;
 
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mapstruct.control.MappingControl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,9 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.server.ResponseStatusException;
 import ua.chernonog.working.antifraud.entity.UserEntity;
-//import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
-import ua.chernonog.working.antifraud.mapper.UserEntityToUserRes;
-import ua.chernonog.working.antifraud.mapper.UserReqToUserEntity;
+//import ua.chernonog.working.antifraud.mapper.UserMapper.UserEntityToUserDetails;
+import ua.chernonog.working.antifraud.mapper.UserMapper;
 import ua.chernonog.working.antifraud.model.emuns.Operation;
 import ua.chernonog.working.antifraud.model.emuns.Role;
 import ua.chernonog.working.antifraud.model.request.UserReq;
@@ -24,20 +20,15 @@ import ua.chernonog.working.antifraud.model.respons.UserRes;
 import ua.chernonog.working.antifraud.repository.UserRepository;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
-
 @Service
 public class UserService {
     UserRepository userRepository;
 
-    UserEntityToUserRes userEntityToUserRes;
+   UserMapper userEntityToUserRes;
 
-    UserReqToUserEntity userEntity;
 
     PasswordEncoder passwordEncoder;
 

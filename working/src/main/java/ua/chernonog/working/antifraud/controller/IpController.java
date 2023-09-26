@@ -2,15 +2,11 @@ package ua.chernonog.working.antifraud.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import ua.chernonog.working.antifraud.annotations.IsAministrator;
 import ua.chernonog.working.antifraud.annotations.IsSupport;
 import ua.chernonog.working.antifraud.config.View;
 import ua.chernonog.working.antifraud.model.request.IpRequest;
@@ -28,14 +24,14 @@ public class IpController {
 
     @PostMapping("/api/antifraud/suspicious-ip")
     @IsSupport
-    @JsonView(View.Public.class)
+    @JsonView(View.IpInternal.class)
     public IpResponse saveSuspiciousIp(@RequestBody @Valid IpRequest ipRequest) {
         log.info("ipReq={}", ipRequest.getIp());
         return ipService.saveSuspiciousIp(ipRequest.getIp());
     }
 
     @IsSupport
-    @JsonView(View.Summary.class)
+    @JsonView(View.IpTop.class)
     @DeleteMapping("/api/antifraud/suspicious-ip/{ip}")
     IpResponse deleteSuspiciousIp(@PathVariable(value = "ip") String ip) {
         log.info("ip={}", ip);

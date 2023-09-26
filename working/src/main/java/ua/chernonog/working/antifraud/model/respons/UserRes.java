@@ -12,11 +12,11 @@ import ua.chernonog.working.antifraud.config.View;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRes {
-    @JsonView(View.Summary.class)
+    @JsonView(View.IpTop.class)
     Long id;
-    @JsonView(View.Summary.class)
+    @JsonView(View.IpTop.class)
     String name;
-    @JsonView(View.Summary.class)
+    @JsonView(View.IpTop.class)
     String username;
 
     Role role;

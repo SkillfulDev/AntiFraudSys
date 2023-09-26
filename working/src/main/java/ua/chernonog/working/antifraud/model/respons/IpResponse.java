@@ -10,12 +10,12 @@ import ua.chernonog.working.antifraud.config.View;
 @NoArgsConstructor
 @ToString
 public class IpResponse {
-    @JsonView(View.Public.class)
+    @JsonView(View.IpInternal.class)
     long id;
 
-    @JsonView(View.Public.class)
+    @JsonView(View.IpInternal.class)
     String ip;
 
-    @JsonView(View.Summary.class)
+    @JsonView(View.IpTop.class)
     String status;
 }

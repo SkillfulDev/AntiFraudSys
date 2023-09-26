@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-//import ua.chernonog.working.antifraud.mapper.UserEntityToUserDetails;
+//import ua.chernonog.working.antifraud.mapper.UserMapper.UserEntityToUserDetails;
 import org.springframework.web.cors.CorsConfiguration;
 import ua.chernonog.working.antifraud.repository.UserRepository;
 

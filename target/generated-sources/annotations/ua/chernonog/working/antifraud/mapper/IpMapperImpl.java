@@ -8,7 +8,7 @@ import ua.chernonog.working.antifraud.model.respons.IpResponse;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-26T11:21:42+0300",
+    date = "2023-09-26T13:39:29+0300",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
